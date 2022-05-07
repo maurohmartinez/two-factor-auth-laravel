@@ -2,23 +2,10 @@
 
 namespace MHMartinez\TwoFactorAuth\Providers;
 
-use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MHMartinez\TwoFactorAuth\Listeners\TwoFactorAuthLoginListener;
-use MHMartinez\TwoFactorAuth\Listeners\TwoFactorAuthLogoutListener;
 
 class TwoFactorAuthServiceProvider extends ServiceProvider
 {
-    protected $listen = [
-        Login::class => [
-            TwoFactorAuthLoginListener::class,
-        ],
-        Logout::class => [
-            TwoFactorAuthLogoutListener::class,
-        ],
-    ];
-
     /**
      * Register any events for your application.
      *
@@ -38,5 +25,6 @@ class TwoFactorAuthServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../config/two_factor_auth.php', 'two_factor_auth'
         );
+        $this->app->register(EventServiceProvider::class);
     }
 }
