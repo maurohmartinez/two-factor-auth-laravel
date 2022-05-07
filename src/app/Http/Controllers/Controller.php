@@ -1,6 +1,6 @@
 <?php
 
-namespace mhm\TwoFactorAuthLaravel\Controllers;
+namespace mhm\TwoFactorAuth\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

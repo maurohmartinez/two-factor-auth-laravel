@@ -1,6 +1,6 @@
 <?php
 
-namespace mhm\TwoFactorAuthLaravel\Listeners;
+namespace mhm\TwoFactorAuth\Listeners;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;

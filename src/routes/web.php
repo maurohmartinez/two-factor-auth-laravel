@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use mhm\TwoFactorAuthLaravel\Controllers\TwoFactorAuthController;
+use mhm\TwoFactorAuth\Controllers\TwoFactorAuthController;
 
 Route::get('google2fa/setup', [TwoFactorAuthController::class, 'setup'])->name('google2fa.setup');
 Route::get('google2fa', [TwoFactorAuthController::class, 'validate'])->name('google2fa.validate');
