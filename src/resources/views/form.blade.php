@@ -21,7 +21,7 @@
                                         <input type="text"
                                                name="{{ \Illuminate\Support\Facades\Config::get('google2fa.otp_input')  }}"
                                                class="form-control @error('error') is-invalid @enderror"
-                                               placeholder="{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.enter_code_placeholder') }}" autofocus="autofocus">
+                                               placeholder="{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.enter_code_placeholder') }}" autofocus="autofocus">
                                         @if($errors->any())
                                             <span class="invalid-feedback text-left">{{$errors->first()}}</span>
                                         @endif
@@ -30,7 +30,7 @@
                                     @yield('twoFactorAuthValidate')
 
                                     <div class="d-flex align-items-center justify-content-center pb-4">
-                                        <button type="submit" class="btn btn-primary">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.validate_btn') }}</button>
+                                        <button type="submit" class="btn btn-primary">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.validate_btn') }}</button>
                                     </div>
 
                                 </form>

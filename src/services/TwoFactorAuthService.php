@@ -1,6 +1,6 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\Services;
+namespace MHMartinez\TwoFactorAuth\services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

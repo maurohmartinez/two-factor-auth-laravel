@@ -1,6 +1,6 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\Providers;
+namespace MHMartinez\TwoFactorAuth\app\Providers;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;

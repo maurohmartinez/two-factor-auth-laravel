@@ -1,10 +1,10 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\Listeners;
+namespace MHMartinez\TwoFactorAuth\listeners;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
 
 class TwoFactorAuthLoginListener
 {

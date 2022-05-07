@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\NoReturn;
-use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;

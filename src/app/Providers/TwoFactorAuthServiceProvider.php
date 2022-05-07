@@ -1,12 +1,12 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\Providers;
+namespace MHMartinez\TwoFactorAuth\app\Providers;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use MHMartinez\TwoFactorAuth\app\Http\Middleware\TwoFactorAuthMiddleware;
-use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
 
 class TwoFactorAuthServiceProvider extends ServiceProvider
 {

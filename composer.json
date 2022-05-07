@@ -30,7 +30,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "MHMartinez\\TwoFactorAuth\\Providers\\TwoFactorAuthServiceProvider"
+        "MHMartinez\\TwoFactorAuth\\app\\Providers\\TwoFactorAuthServiceProvider"
       ],
       "aliases": {
         "TwoFactorAuth": "MHMartinez\\TwoFactorAuth\\Facade"

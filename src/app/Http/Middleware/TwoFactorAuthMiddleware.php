@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
-use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
 use PragmaRX\Google2FALaravel\Support\Authenticator;
 
 class TwoFactorAuthMiddleware
