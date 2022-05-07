@@ -1,23 +1,48 @@
-<div class="container-fluid pt-5 px-3 px-md-1 px-md-5 px-lg-1 col-xl-4 col-lg-7 col-md-10 col-12">
-    <div class="auth-card card mb-0 border-0 px-4 py-5">
-        <div class="text-center">
-            <h4 class="mt-3">{{ $formTitle }}</h4>
-        </div>
-        <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('two_factor_auth.authenticate') }}">
-            @csrf
-            <div class="text-center">
-                @yield('formCustomFields')
-                <input type="text" name="{{ \Illuminate\Support\Facades\Config::get('google2fa.otp_input')  }}" class="form-control mt-3 @error('error') is-invalid @enderror" placeholder="Enter code" autocomplete="false" autofocus>
-                @if($errors->any())
-                    <span class="invalid-feedback text-left">{{$errors->first()}}</span>
-                @endif
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-primary text-center loading-login-btn">
-                        <span class="spinner-border spinner-border-sm mr-2 loading-login" style="display: none;"></span>
-                        <span class="loading-login-hide">Confirm</span>
-                    </button>
+<section class="bg-light" style="height: 100vh;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+                <div class="card rounded-3 text-black">
+                    <div class="row g-0">
+                        <div class="col-lg-6">
+                            <div class="card-body p-md-5 mx-md-4">
+                                <div class="text-center">
+                                    <h4 class="mt-1 mb-3 pb-1">{{ $formTitle }}</h4>
+                                </div>
+
+                                <form role="form"
+                                      method="POST"
+                                      action="{{ route('two_factor_auth.authenticate') }}">
+                                    @csrf
+
+                                    @yield('twoFactorAuthSetup')
+
+                                    <div class="form-outline mb-4">
+                                        <input type="text"
+                                               name="{{ Config::get('google2fa.otp_input')  }}"
+                                               class="form-control @error('error') is-invalid @enderror"
+                                               placeholder="Enter code" autofocus="autofocus">
+                                        @if($errors->any())
+                                            <span class="invalid-feedback text-left">{{$errors->first()}}</span>
+                                        @endif
+                                    </div>
+
+                                    @yield('twoFactorAuthValidate')
+
+                                    <div class="d-flex align-items-center justify-content-center pb-4">
+                                        <button type="button" class="btn btn-primary">Validate</button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                            <img src="{{  }}" alt="QR">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>

@@ -12,4 +12,12 @@ return [
     'remember_key' => env('2FA_REMEMBER_KEY', 'remember_2fa'),
     'guard' => env('2FA_GUARD', 'backpack'),
     'user_secret_key' => env('2FA_USER_SECRET_KEY', 'user_secret'),
+    'texts' => [
+        'setup_title' => 'Setup Google Authenticator',
+        'setup_description' => 'Configure your two-factor authentication by scanning the following code. Alternatively, enter it manually:',
+        'validate_title' => 'Validate Google Authenticator',
+        'validate_description' => 'Click the following link to reset your Google Authenticator App:',
+        're_setup_btn' => 'Reset',
+    ],
+    'layout' => 'layouts.plain',
 ];

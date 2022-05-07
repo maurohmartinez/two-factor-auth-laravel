@@ -22,6 +22,9 @@ class TwoFactorAuthServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/two_factor_auth'),
         ]);
+        $this->publishes([
+            __DIR__.'/../public' => public_path('vendor/two_factor_auth'),
+        ], 'public');
     }
 
     public function register(): void
