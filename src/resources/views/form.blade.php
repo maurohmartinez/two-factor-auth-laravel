@@ -21,7 +21,7 @@
                                         <input type="text"
                                                name="{{ \Illuminate\Support\Facades\Config::get('google2fa.otp_input')  }}"
                                                class="form-control @error('error') is-invalid @enderror"
-                                               placeholder="Enter code" autofocus="autofocus">
+                                               placeholder="{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.enter_code_placeholder') }}" autofocus="autofocus">
                                         @if($errors->any())
                                             <span class="invalid-feedback text-left">{{$errors->first()}}</span>
                                         @endif
