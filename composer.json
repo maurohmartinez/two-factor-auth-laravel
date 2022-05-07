@@ -27,7 +27,7 @@
         "MHMartinez\\TwoFactorAuth\\Providers\\TwoFactorAuthServiceProvider"
       ],
       "aliases": {
-        "Debugbar": "MHMartinez\\TwoFactorAuth\\Facade"
+        "TwoFactorAuth": "MHMartinez\\TwoFactorAuth\\Facade"
       }
     }
   }
