@@ -19,13 +19,13 @@ class TwoFactorAuthMiddleware
             $user = Auth::guard(config('two_factor_auth.guard'))->user();
             if (!$user->{config('two_factor_auth.is_enabled')}) {
 
-                return Redirect::route(config('two_factor_auth.view.setup'));
+                return Redirect::route('two_factor_auth.setup');
             }
             if (!$google2FA->isAuthenticated()) {
                 if (Cookie::has(config('two_factor_auth.remember_key'))) {
                     $google2FA->login();
                 } else {
-                    return Redirect::route(config('two_factor_auth.view.validate'));
+                    return Redirect::route('two_factor_auth.validate');
                 }
             }
         }
