@@ -1,6 +1,6 @@
 <?php
 
-namespace MhMartinez\TwoFactorAuth\app\Http\Controllers;
+namespace MHMartinez\TwoFactorAuth\app\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

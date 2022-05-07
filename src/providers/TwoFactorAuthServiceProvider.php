@@ -1,12 +1,12 @@
 <?php
 
-namespace MhMartinez\TwoFactorAuth\Providers;
+namespace MHMartinez\TwoFactorAuth\Providers;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MhMartinez\TwoFactorAuth\Listeners\TwoFactorAuthLoginListener;
-use MhMartinez\TwoFactorAuth\Listeners\TwoFactorAuthLogoutListener;
+use MHMartinez\TwoFactorAuth\Listeners\TwoFactorAuthLoginListener;
+use MHMartinez\TwoFactorAuth\Listeners\TwoFactorAuthLogoutListener;
 
 class TwoFactorAuthServiceProvider extends ServiceProvider
 {
