@@ -18,16 +18,16 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "MHM\\TwoFactorAuth": "src/"
+      "mhm\\TwoFactorAuth\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "MHM\\TwoFactorAuth\\Providers\\TwoFactorAuthServiceProvider"
+        "mhm\\TwoFactorAuth\\Providers\\TwoFactorAuthServiceProvider"
       ],
       "aliases": {
-        "Debugbar": "MHM\\TwoFactorAuth\\Facade"
+        "Debugbar": "mhm\\TwoFactorAuth\\Facade"
       }
     }
   }

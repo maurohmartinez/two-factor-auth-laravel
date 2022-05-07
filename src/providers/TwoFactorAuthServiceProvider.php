@@ -1,12 +1,12 @@
 <?php
 
-namespace MHM\TwoFactorAuthLaravel\Providers;
+namespace mhm\TwoFactorAuthLaravel\Providers;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MHM\TwoFactorAuthLaravel\Listeners\TwoFactorAuthLoginListener;
-use MHM\TwoFactorAuthLaravel\Listeners\TwoFactorAuthLogoutListener;
+use mhm\TwoFactorAuthLaravel\Listeners\TwoFactorAuthLoginListener;
+use mhm\TwoFactorAuthLaravel\Listeners\TwoFactorAuthLogoutListener;
 
 class TwoFactorAuthServiceProvider extends ServiceProvider
 {

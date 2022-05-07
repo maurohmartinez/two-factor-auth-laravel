@@ -1,6 +1,6 @@
 <?php
 
-namespace MHM\TwoFactorAuthLaravel\Controllers;
+namespace mhm\TwoFactorAuthLaravel\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\NoReturn;
-use MHM\TwoFactorAuthLaravel\Services\TwoFactorAuthService;
+use mhm\TwoFactorAuthLaravel\Services\TwoFactorAuthService;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;

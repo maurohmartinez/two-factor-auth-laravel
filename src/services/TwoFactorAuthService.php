@@ -1,6 +1,6 @@
 <?php
 
-namespace MHM\TwoFactorAuthLaravel\Services;
+namespace mhm\TwoFactorAuthLaravel\Services;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
