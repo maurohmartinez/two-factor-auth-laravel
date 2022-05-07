@@ -1,9 +1,9 @@
-@extends(\Illuminate\Support\Facades\Config::get('two_factor_auth.layout'))
+@extends(\Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.layout'))
 
 @section('twoFactorAuthValidate')
-    <p class="text-center">{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.texts.validate_description') }} <a class="text-primary" href="{{ route('two_factor_auth.setup') }}">{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.texts.re_setup_btn') }}</a></p>
+    <p class="text-center">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.texts.validate_description') }} <a class="text-primary" href="{{ route(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.setup') }}">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.texts.re_setup_btn') }}</a></p>
 @endsection
 
 @section('content')
-    @include('two_factor_auth::form', ['formTitle' => \Illuminate\Support\Facades\Config::get('two_factor_auth.texts.validate_title') ])
+    @include(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '::form', ['formTitle' => \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.texts.validate_title') ])
 @endsection

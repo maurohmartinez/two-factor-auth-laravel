@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
+use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
 use PragmaRX\Google2FALaravel\Support\Authenticator;
 
 class TwoFactorAuthMiddleware
@@ -15,17 +16,17 @@ class TwoFactorAuthMiddleware
     {
         $google2FA = new Authenticator($request);
 
-        if (Auth::guard(config('two_factor_auth.guard'))->check()) {
-            $user = Auth::guard(config('two_factor_auth.guard'))->user();
-            if (!$user->{config('two_factor_auth.is_enabled')}) {
+        if (Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->check()) {
+            $user = Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->user();
+            if (!$user->{config(TwoFactorAuthService::CONFIG_KEY . '.is_enabled')}) {
 
-                return Redirect::route('two_factor_auth.setup');
+                return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');
             }
             if (!$google2FA->isAuthenticated()) {
-                if (Cookie::has(config('two_factor_auth.remember_key'))) {
+                if (Cookie::has(config(TwoFactorAuthService::CONFIG_KEY . '.remember_key'))) {
                     $google2FA->login();
                 } else {
-                    return Redirect::route('two_factor_auth.validate');
+                    return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.validate');
                 }
             }
         }

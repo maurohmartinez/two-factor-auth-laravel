@@ -14,7 +14,7 @@ use PragmaRX\Google2FAQRCode\Exceptions\MissingQrCodeServiceException;
 
 class TwoFactorAuthService
 {
-    private const CONFIG_KEY = 'two_factor_auth';
+    public const CONFIG_KEY = 'two_factor_auth';
 
     public function __construct(private Request $request, private Google2FA $google2FA)
     {

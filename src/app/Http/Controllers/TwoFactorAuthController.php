@@ -48,15 +48,15 @@ class TwoFactorAuthController extends Controller
         $userSecret = $this->twoFactorAuth->getUserSecretKey();
 
         if (!$oneTimePass || !$userSecret || !$this->google2FA->verifyKey($userSecret, $oneTimePass)) {
-            Session::put(config('two_factor_auth.user_secret_key'), $userSecret);
+            Session::put(config(TwoFactorAuthService::CONFIG_KEY . '.user_secret_key'), $userSecret);
 
-            return Redirect::back()->withErrors(['error' => 'Invalid code, try again.']);
+            return Redirect::back()->withErrors(['error' => config(TwoFactorAuthService::CONFIG_KEY . '.error_msg')]);
         }
 
         $this->twoFactorAuth->handleRemember();
         $this->google2FA->login();
 
-        return Redirect::route(config('two_factor_auth.route_after_validated'));
+        return Redirect::route(config(TwoFactorAuthService::CONFIG_KEY . '.route_after_validated'));
 
     }
 }

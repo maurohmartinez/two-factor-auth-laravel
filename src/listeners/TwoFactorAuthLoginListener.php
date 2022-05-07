@@ -4,6 +4,7 @@ namespace MHMartinez\TwoFactorAuth\Listeners;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
+use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
 
 class TwoFactorAuthLoginListener
 {
@@ -11,7 +12,7 @@ class TwoFactorAuthLoginListener
     {
         $remember = Request::get('remember', false);
         if ($remember) {
-            Session::put(config('two_factor_auth.remember_key'), true);
+            Session::put(config(TwoFactorAuthService::CONFIG_KEY . '.remember_key'), true);
         }
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
 
 return new class extends Migration
 {
@@ -13,9 +14,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table(config('two_factor_auth.users_table'), function (Blueprint $table) {
+        Schema::table(config(TwoFactorAuthService::CONFIG_KEY . '.users_table'), function (Blueprint $table) {
             $table->text(config('google2fa.otp_secret_column'))->nullable()->after('password');
-            $table->boolean(config('two_factor_auth.is_enabled'))->default(false)->after(config('google2fa.otp_secret_column'));
+            $table->boolean(config(TwoFactorAuthService::CONFIG_KEY . '.is_enabled'))->default(false)->after(config('google2fa.otp_secret_column'));
         });
     }
 
@@ -26,9 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table(config('two_factor_auth.users_table'), function (Blueprint $table) {
+        Schema::table(config(TwoFactorAuthService::CONFIG_KEY . '.users_table'), function (Blueprint $table) {
             $table->dropColumn(config('google2fa.otp_secret_column'));
-            $table->dropColumn(config('two_factor_auth.is_enabled'));
+            $table->dropColumn(config(TwoFactorAuthService::CONFIG_KEY . '.is_enabled'));
         });
     }
 };

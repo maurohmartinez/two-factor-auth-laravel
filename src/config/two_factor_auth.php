@@ -20,4 +20,6 @@ return [
         're_setup_btn' => 'Reset',
     ],
     'layout' => 'layouts.plain',
+    'error_msg' => 'Invalid code. Please try again.',
+    'validate_btn' => 'Validate',
 ];

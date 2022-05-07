@@ -19,7 +19,7 @@
 
                                     <div class="form-outline mb-4">
                                         <input type="text"
-                                               name="{{ Config::get('google2fa.otp_input')  }}"
+                                               name="{{ \Illuminate\Support\Facades\Config::get('google2fa.otp_input')  }}"
                                                class="form-control @error('error') is-invalid @enderror"
                                                placeholder="Enter code" autofocus="autofocus">
                                         @if($errors->any())
@@ -30,7 +30,7 @@
                                     @yield('twoFactorAuthValidate')
 
                                     <div class="d-flex align-items-center justify-content-center pb-4">
-                                        <button type="button" class="btn btn-primary">Validate</button>
+                                        <button type="submit" class="btn btn-primary">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService::CONFIG_KEY . '.validate_btn') }}</button>
                                     </div>
 
                                 </form>
