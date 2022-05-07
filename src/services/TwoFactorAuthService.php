@@ -35,7 +35,9 @@ class TwoFactorAuthService
 
         $userSecret = $this->google2FA->generateSecretKey();
 
-        $this->user->update([config('google2fa.otp_secret_column') => $userSecret]);
+        if ($this->user) {
+            $this->user->update([config('google2fa.otp_secret_column') => $userSecret]);
+        }
 
         return $userSecret;
     }
