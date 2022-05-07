@@ -2,7 +2,8 @@
 
 namespace MHMartinez\TwoFactorAuth\Providers;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use MHMartinez\TwoFactorAuth\app\Http\Middleware\TwoFactorAuthMiddleware;
 use MHMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
@@ -13,6 +14,7 @@ class TwoFactorAuthServiceProvider extends ServiceProvider
      * Register any events for your application.
      *
      * @return void
+     * @throws BindingResolutionException
      */
     public function boot(): void
     {
