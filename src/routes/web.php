@@ -5,8 +5,9 @@ use MHMartinez\TwoFactorAuth\app\Http\Controllers\TwoFactorAuthController;
 
 Route::group([
     'middleware' => 'web',
+    'prefix' => 'two-factor-auth',
 ], function () {
-    Route::get('google2fa/setup', [TwoFactorAuthController::class, 'setupTwoFactorAuth'])->name('google2fa.setup');
-    Route::get('google2fa', [TwoFactorAuthController::class, 'validateTwoFactorAuth'])->name('google2fa.validate');
-    Route::post('google2fa/authenticate', [TwoFactorAuthController::class, 'authenticateTwoFactorAuth'])->name('google2fa.authenticate');
+    Route::get('/', [TwoFactorAuthController::class, 'validateTwoFactorAuth'])->name('two_factor_auth.validate');
+    Route::get('setup', [TwoFactorAuthController::class, 'setupTwoFactorAuth'])->name('two_factor_auth.setup');
+    Route::post('authenticate', [TwoFactorAuthController::class, 'authenticateTwoFactorAuth'])->name('two_factor_auth.authenticate');
 });

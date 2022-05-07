@@ -31,12 +31,12 @@ class TwoFactorAuthController extends Controller
         $userSecret = $this->twoFactorAuth->generateUserSecretKey();
         $QR_Image = $this->twoFactorAuth->generateQR($userSecret);
 
-        return view(config('two_factor_auth.view.setup'), ['QR_Image' => $QR_Image, 'secret' => $userSecret]);
+        return view('two_factor_auth::setup', ['QR_Image' => $QR_Image, 'secret' => $userSecret]);
     }
 
     #[NoReturn] public function validateTwoFactorAuth(): Factory|View|Application
     {
-        return view(config('two_factor_auth.view.validate'), ['secret' => $this->twoFactorAuth->getUserSecretKey()]);
+        return view('two_factor_auth::validate', ['secret' => $this->twoFactorAuth->getUserSecretKey()]);
     }
 
     /**

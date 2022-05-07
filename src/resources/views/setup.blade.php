@@ -6,5 +6,5 @@
 @endsection
 
 @section('content')
-    @include('google2fa.form', ['formTitle' => 'Iniciar Google Authenticator'])
+    @include('two_factor_auth::form', ['formTitle' => 'Setup Google Authenticator'])
 @endsection

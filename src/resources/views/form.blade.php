@@ -3,7 +3,7 @@
         <div class="text-center">
             <h4 class="mt-3">{{ $formTitle }}</h4>
         </div>
-        <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('google2fa.authenticate') }}">
+        <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('two_factor_auth.authenticate') }}">
             @csrf
             <div class="text-center">
                 @yield('formCustomFields')
@@ -14,7 +14,7 @@
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary text-center loading-login-btn">
                         <span class="spinner-border spinner-border-sm mr-2 loading-login" style="display: none;"></span>
-                        <span class="loading-login-hide">Confirmar</span>
+                        <span class="loading-login-hide">Confirm</span>
                     </button>
                 </div>
             </div>
