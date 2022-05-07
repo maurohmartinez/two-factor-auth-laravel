@@ -2,7 +2,6 @@
 
 namespace MHMartinez\TwoFactorAuth\Services;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -15,7 +14,7 @@ use PragmaRX\Google2FAQRCode\Exceptions\MissingQrCodeServiceException;
 
 class TwoFactorAuthService
 {
-    private ?User $user;
+    private const CONFIG_KEY = 'two_factor_auth';
 
     public function __construct(private Request $request, private Google2FA $google2FA)
     {
@@ -27,17 +26,12 @@ class TwoFactorAuthService
      */
     public function generateUserSecretKey(): string
     {
-        $this->user = Auth::guard(config('two_auth_factor.guard'))->user();
-
-        if (Session::has(config('two_factor_auth.user_secret_key'))) {
-            return Session::get(config('two_factor_auth.user_secret_key'));
+        if (Session::has(config(self::CONFIG_KEY . '.user_secret_key'))) {
+            return Session::get(config(self::CONFIG_KEY . '.user_secret_key'));
         }
 
         $userSecret = $this->google2FA->generateSecretKey();
-
-        if ($this->user) {
-            $this->user->update([config('google2fa.otp_secret_column') => $userSecret]);
-        }
+        Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->update([config('google2fa.otp_secret_column') => $userSecret]);
 
         return $userSecret;
     }
@@ -49,16 +43,14 @@ class TwoFactorAuthService
     {
         return $this->google2FA->getQRCodeInline(
             config('app.name'),
-            $this->user->getAttribute('email'),
+            Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->getAttribute('email'),
             $userSecret,
         );
     }
 
     public function getUserSecretKey(): ?string
     {
-        $this->user = Auth::guard(config('two_auth_factor.guard'))->user();
-
-        return $this->user->{config('google2fa.otp_secret_column')} ?? null;
+        return Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->{config('google2fa.otp_secret_column')} ?? null;
     }
 
     public function getOneTimePasswordRequestField(): ?string
@@ -72,13 +64,13 @@ class TwoFactorAuthService
 
     public function handleRemember(): void
     {
-        $this->user->update([config('two_factor_auth.is_enabled') => true]);
+        Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->update([config(self::CONFIG_KEY . '.is_enabled') => true]);
 
-        if (Session::has(config('two_factor_auth.remember_key'))) {
-            Cookie::queue(Cookie::make(config('two_factor_auth.remember_key'), true));
-            Session::remove(config('two_factor_auth.remember_key'));
+        if (Session::has(config(self::CONFIG_KEY . '.remember_key'))) {
+            Cookie::queue(Cookie::make(config(self::CONFIG_KEY . '.remember_key'), true));
+            Session::remove(config(self::CONFIG_KEY . '.remember_key'));
         }
 
-        Session::remove(config('two_factor_auth.user_secret_key'));
+        Session::remove(config(self::CONFIG_KEY . '.user_secret_key'));
     }
 }
