@@ -1,6 +1,6 @@
 <?php
 
-namespace mhm\TwoFactorAuth\Middleware;
+namespace MhMartinez\TwoFactorAuth\app\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

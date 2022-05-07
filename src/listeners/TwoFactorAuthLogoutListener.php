@@ -1,6 +1,6 @@
 <?php
 
-namespace mhm\TwoFactorAuth\Listeners;
+namespace MhMartinez\TwoFactorAuth\Listeners;
 
 use Illuminate\Support\Facades\Cookie;
 

@@ -1,5 +1,5 @@
 {
-  "name": "mhm/two-factor-authentication-laravel",
+  "name": "mhmartinez/two-factor-authentication-laravel",
   "description": "A package to handle 2FA authentication",
   "type": "library",
   "require": {
@@ -18,16 +18,16 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "mhm\\TwoFactorAuth\\": "src/"
+      "MhMartinez\\TwoFactorAuth\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "mhm\\TwoFactorAuth\\Providers\\TwoFactorAuthServiceProvider"
+        "MhMartinez\\TwoFactorAuth\\Providers\\TwoFactorAuthServiceProvider"
       ],
       "aliases": {
-        "Debugbar": "mhm\\TwoFactorAuth\\Facade"
+        "Debugbar": "MhMartinez\\TwoFactorAuth\\Facade"
       }
     }
   }

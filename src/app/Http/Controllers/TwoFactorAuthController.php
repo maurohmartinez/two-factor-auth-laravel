@@ -1,16 +1,15 @@
 <?php
 
-namespace mhm\TwoFactorAuth\Controllers;
+namespace MhMartinez\TwoFactorAuth\app\Http\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\NoReturn;
-use mhm\TwoFactorAuth\Services\TwoFactorAuthService;
+use MhMartinez\TwoFactorAuth\Services\TwoFactorAuthService;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
