@@ -7,17 +7,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
+use MHMartinez\TwoFactorAuth\app\Exceptions\InterfaceTwoFactorAuthInterfaceNotFound;
+use MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface;
 use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
 use PragmaRX\Google2FALaravel\Support\Authenticator;
 
 class TwoFactorAuthMiddleware
 {
+    /**
+     * @throws InterfaceTwoFactorAuthInterfaceNotFound
+     */
     public function handle(Request $request, Closure $next): mixed
     {
         $google2FA = new Authenticator($request);
 
+
         if (Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->check()) {
+            /** @var TwoFactorAuthInterface $user */
             $user = Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->user();
+
+            if (!($user instanceof TwoFactorAuthInterface)) {
+                throw new InterfaceTwoFactorAuthInterfaceNotFound('Model user must implement MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface');
+            }
+
+            if (!$user->shouldValidateWithTwoFactorAuth()) {
+
+                return $next($request);
+            }
+
             if (!$user->{config(TwoFactorAuthService::CONFIG_KEY . '.is_enabled')}) {
 
                 return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');

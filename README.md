@@ -32,25 +32,26 @@ This section should list any major frameworks/libraries used to bootstrap your p
 ```sh
    php artisan migrate
 ```
-3. Publish config file if you want to customize the texts
+3. Add "google2fa_secret" and "google2fa_is_enabled" to User fillable Model (or any other name if you edit the config file)<br><br>
+4. Publish config file if you want to customize the texts
 ```sh
    php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="config"
 ```
-4. Publish views if you want to adjust them or use your own
+5. Publish views if you want to adjust them or use your own
 ```sh
    php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="views"
 ```
-4. Publish public file to be able to display the image used in views (unless you created your own views)
+6. Publish public file to be able to display the image used in views (unless you created your own views)
 ```sh
    php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="public"
 ```
-5. Add our middleware wherever you need it<br>
+7. Add our middleware wherever you need it<br>
 
 This package automatically applies a middleware to route "admin", but you can adjust that by updating the config file:
 ```php
    'middleware_route' => 'admin'
 ```
-You can also add the middleware `MHMartinez\TwoFactorAuth\app\Http\Middleware\TwoFactorAuthMiddleware` where you need it.
+8. You can also manually add the middleware `MHMartinez\TwoFactorAuth\app\Http\Middleware\TwoFactorAuthMiddleware` where you need it.
 
 <!-- CONTACT -->
 ## Contact
