@@ -11,6 +11,8 @@ use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FALaravel\Google2FA;
 use PragmaRX\Google2FAQRCode\Exceptions\MissingQrCodeServiceException;
+use PragmaRX\Google2FAQRCode\QRCode\Bacon;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 
 class TwoFactorAuthService
 {
@@ -41,6 +43,8 @@ class TwoFactorAuthService
      */
     public function generateQR(string $userSecret): string
     {
+        $this->google2FA->setQrcodeService(new Bacon(new SvgImageBackEnd()));
+
         return $this->google2FA->getQRCodeInline(
             config('app.name'),
             Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->getAttribute('email'),
