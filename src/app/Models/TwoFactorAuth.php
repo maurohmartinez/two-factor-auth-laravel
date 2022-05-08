@@ -1,6 +1,6 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\app\Http\Models;
+namespace MHMartinez\TwoFactorAuth\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
