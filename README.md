@@ -25,33 +25,54 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 1. Use composer to require this project
-```sh
-   composer require mhmartinez/two-factor-authentication-laravel
-```
+    ```sh
+       composer require mhmartinez/two-factor-authentication-laravel
+    ```
 2. Run migrations
-```sh
-   php artisan migrate
-```
+    ```sh
+       php artisan migrate
+    ```
 3. Add "google2fa_secret" and "google2fa_is_enabled" to User fillable Model (or any other name if you edit the config file)<br><br>
+
 4. Publish config file if you want to customize the texts
-```sh
-   php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="config"
-```
+    ```sh
+       php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="config"
+    ```
 5. Publish views if you want to adjust them or use your own
-```sh
-   php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="views"
-```
+    ```sh
+       php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="views"
+    ```
 6. Publish public file to be able to display the image used in views (unless you created your own views)
-```sh
-   php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="public"
-```
+    ```sh
+       php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider" --tag="public"
+    ```
 7. Add our middleware wherever you need it<br>
 
-This package automatically applies a middleware to route "admin", but you can adjust that by updating the config file:
-```php
+    This package automatically applies a middleware to route "admin", but you can adjust that by updating the config file:
+    ```php
    'middleware_route' => 'admin'
-```
+    ```
 8. You can also manually add the middleware `MHMartinez\TwoFactorAuth\app\Http\Middleware\TwoFactorAuthMiddleware` where you need it.
+
+
+9. [Optional] What if you only want to require users of type admins to validate with 2FA?
+    In this case, your User model should implement interface `MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface`. That will require you to add a new method `shouldValidateWithTwoFactorAuth` which will return a boolean and will indicate whether the middleware should or not be used for that user.<br><br>
+    
+   Sample of your User Model Class:
+   ```php
+   use MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface;
+   
+   class User extends Authenticate implements TwoFactorAuthInterface
+    ```
+   Sample of method `shouldValidateWithTwoFactorAuth`:
+   ```php
+   public function shouldValidateWithTwoFactorAuth(): bool
+    {
+        // do your logic here
+        
+        return true; // or false :)
+    }
+    ```
 
 <!-- CONTACT -->
 ## Contact
