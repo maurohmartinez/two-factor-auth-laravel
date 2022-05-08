@@ -24,7 +24,7 @@ return [
     /*
      * Guard you use in Auth
      */
-    'guard' => 'auth',
+    'guard' => 'web',
 
     /*
      * Middleware route name where you want to check if user validated 2FA

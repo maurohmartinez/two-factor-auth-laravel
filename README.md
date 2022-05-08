@@ -6,7 +6,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project uses the following two dependencies: 
+This project uses the following three packages: 
 
 * [pragmarx/google2fa-qrcode](https://packagist.org/packages/pragmarx/google2fa-qrcode)
 * [pragmarx/google2fa-laravel](https://packagist.org/packages/pragmarx/google2fa-laravel)
