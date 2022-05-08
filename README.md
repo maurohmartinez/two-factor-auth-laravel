@@ -10,6 +10,7 @@ This project uses the following two dependencies:
 
 * [pragmarx/google2fa-qrcode](https://packagist.org/packages/pragmarx/google2fa-qrcode)
 * [pragmarx/google2fa-laravel](https://packagist.org/packages/pragmarx/google2fa-laravel)
+* [bacon/bacon-qr-code](https://packagist.org/packages/bacon/bacon-qr-code)
 
 You can obviously install those 2 packages and do it yourself, but this is a quick and easy implementation of those two repositories.
 

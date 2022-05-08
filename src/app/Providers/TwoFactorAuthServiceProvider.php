@@ -22,11 +22,11 @@ class TwoFactorAuthServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         $this->publishes([
             __DIR__ . '/../../config/two_factor_auth.php' => config_path('two_factor_auth.php'),
-        ], 'views');
+        ], 'config');
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'two_factor_auth');
         $this->publishes([
             __DIR__.'/../../resources/views' => resource_path('views/vendor/two_factor_auth'),
-        ], 'config');
+        ], 'views');
         $this->publishes([
             __DIR__.'/../../public' => public_path('vendor/two_factor_auth'),
         ], 'public');
