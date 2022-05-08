@@ -19,11 +19,11 @@ In short, this package requests users to validate their credentials with Google 
 
 * If the user never registered 2FA, it displays the setup page to do it.
 
-![screenshot-1](https://github.com/maurohmartinez/two-factor-auth-laravel/blob/main/src/storage/sample/screenshot-1.jpg)
+![screenshot-1](https://raw.githubusercontent.com/maurohmartinez/two-factor-auth-laravel/main/src/storage/sample/screenshot-2.jpg)
 
 * If the user already did it, it displays the validation form.
-* 
-![screenshot-2](https://github.com/maurohmartinez/two-factor-auth-laravel/blob/main/src/storage/sample/screenshot-2.jpg)
+
+![screenshot-2](https://raw.githubusercontent.com/maurohmartinez/two-factor-auth-laravel/main/src/storage/sample/screenshot-1.jpg)
 
 Also, if you have a "remember" input in your login form, we pick up on that and add a cookie after successful validation. So the next time the user visits the site, we don't ask again for 2FA validation. Once the user logs out, we removed the cookie.
 
