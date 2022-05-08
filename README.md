@@ -50,7 +50,7 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
 
 
 7. [Optional] What if you only want to require users of type admins to validate with 2FA?
-    In this case, your `User` model should implement interface `MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface`. That will require you to add a new method `shouldValidateWithTwoFactorAuth` which should return a boolean indicating whether the middleware should or not be used for that user.<br><br>
+    In this case, your `User` model should implement interface `MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface`. That will require you to add a new method `shouldValidateWithTwoFactorAuth` which should return a boolean indicating whether the middleware should or not be used for that user.<br>
     
    Sample of your `User` Model Class:
    ```php
