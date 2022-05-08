@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('two_factor_auth', function (Blueprint $table) {
-            $table->bigInteger('id')->unsigned();
+            $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->text('secret')->nullable();
             $table->timestamps();

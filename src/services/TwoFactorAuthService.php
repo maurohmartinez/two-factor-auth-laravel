@@ -2,6 +2,7 @@
 
 namespace MHMartinez\TwoFactorAuth\services;
 
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,6 @@ use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FALaravel\Google2FA;
 use PragmaRX\Google2FAQRCode\Exceptions\MissingQrCodeServiceException;
 use PragmaRX\Google2FAQRCode\QRCode\Bacon;
-use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 
 class TwoFactorAuthService
 {
@@ -81,16 +81,16 @@ class TwoFactorAuthService
     public function getUserTwoFactorAuthSecret(Authenticatable $user): ?string
     {
         return TwoFactorAuth::query()
-            ->where('user_id', $user->id)
-            ->select('secret')
-            ->first()['secret'] ?? null;
+                ->where('user_id', $user->id)
+                ->select('secret')
+                ->first()['secret'] ?? null;
     }
 
     public function updateOrCreateUserSecret(string $userSecret)
     {
-        TwoFactorAuth::updateOrCreate([
+        TwoFactorAuth::updateOrCreate(
             ['user_id' => Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->id],
             ['secret' => $userSecret],
-        ]);
+        );
     }
 }

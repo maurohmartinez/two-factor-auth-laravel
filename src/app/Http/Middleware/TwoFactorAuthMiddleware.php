@@ -28,7 +28,7 @@ class TwoFactorAuthMiddleware
                 return $next($request);
             }
 
-            if (app(TwoFactorAuthService::class)->getUserTwoFactorAuthSecret($user)) {
+            if (!app(TwoFactorAuthService::class)->getUserTwoFactorAuthSecret($user)) {
                 return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');
             }
             if (!$google2FA->isAuthenticated()) {
