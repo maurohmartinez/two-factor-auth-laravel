@@ -15,10 +15,17 @@ This project uses the following three packages:
 You can obviously install those three packages and do it yourself, but this is a quick and easy implementation.
 
 In short, this package requests users to validate their credentials with Google Authenticator right after they logged in.
-* If the user never registered 2FA, it displays the setup page to do it.
-* If the user already did it, it displays the validation form.
 
-Also, if you have a "remember" input in your login form, we pick up on that and add a cookie after successful validation. So the next time the user visits the site, we don't ask again for 2FA validation. Once the user logs out, we removed the cookie. 
+
+* If the user never registered 2FA, it displays the setup page to do it.
+
+![screenshot-1](https://github.com/maurohmartinez/two-factor-auth-laravel/blob/main/src/storage/sample/screenshot-1.jpg)
+
+* If the user already did it, it displays the validation form.
+* 
+![screenshot-2](https://github.com/maurohmartinez/two-factor-auth-laravel/blob/main/src/storage/sample/screenshot-2.jpg)
+
+Also, if you have a "remember" input in your login form, we pick up on that and add a cookie after successful validation. So the next time the user visits the site, we don't ask again for 2FA validation. Once the user logs out, we removed the cookie.
 
 ### Installation
 
