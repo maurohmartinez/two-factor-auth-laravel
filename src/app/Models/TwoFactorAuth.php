@@ -2,6 +2,7 @@
 
 namespace MHMartinez\TwoFactorAuth\app\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $user_id
  * @property string $secret
+ * @property Carbon $updated_at
  */
 class TwoFactorAuth extends Model
 {

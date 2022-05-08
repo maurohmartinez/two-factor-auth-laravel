@@ -2,6 +2,17 @@
 
 return [
     /*
+     * Disable this packages in your local environments by adding TWO_FACTOR_AUTH_ENABLED=false in your .env
+     */
+    'enabled' => env('TWO_FACTOR_AUTH_ENABLED', true),
+
+    /*
+     * Set in days when the secret code expires
+     * 0 means it never expires
+     */
+    '2fa_expires' => 0,
+
+    /*
      * Name of the route where you want to redirect users after successful validation
      */
     'route_after_validation' => 'home',

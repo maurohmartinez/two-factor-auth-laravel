@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
 use MHMartinez\TwoFactorAuth\app\CustomCheckAuthenticator;
 use MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface;
+use MHMartinez\TwoFactorAuth\app\Models\TwoFactorAuth;
 use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
 
 class TwoFactorAuthMiddleware
 {
     public function handle(Request $request, Closure $next): mixed
     {
+        if (!config(TwoFactorAuthService::CONFIG_KEY . '.enabled')) {
+            return $next($request);
+        }
+
         $google2FA = new CustomCheckAuthenticator($request);
 
         if (Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->check()) {
@@ -28,7 +33,11 @@ class TwoFactorAuthMiddleware
                 return $next($request);
             }
 
-            if (!app(TwoFactorAuthService::class)->getUserTwoFactorAuthSecret($user)) {
+            $twoFactorAuthService = app(TwoFactorAuthService::class);
+
+            /** @var TwoFactorAuth $secret */
+            $secret = $twoFactorAuthService->getUserTwoFactorAuthSecret($user);
+            if (!$secret || $twoFactorAuthService->secretHasExpired($secret)) {
                 return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');
             }
 

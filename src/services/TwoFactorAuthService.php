@@ -96,4 +96,11 @@ class TwoFactorAuthService
             ['secret' => $userSecret],
         );
     }
+
+    public function secretHasExpired(TwoFactorAuth $secret): bool
+    {
+        $expiresInDays = config(TwoFactorAuthService::CONFIG_KEY . '.2fa_expires');
+
+        return $expiresInDays !== 0 && $secret->updated_at->addDays($expiresInDays)->isPast();
+    }
 }
