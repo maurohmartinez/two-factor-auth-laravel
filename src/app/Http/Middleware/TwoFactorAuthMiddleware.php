@@ -17,17 +17,18 @@ class TwoFactorAuthMiddleware
     {
         $google2FA = new Authenticator($request);
 
-
         if (Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->check()) {
-            /** @var TwoFactorAuthInterface $user */
             $user = Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->user();
+
+            if (!$user) {
+                return $next($request);
+            }
 
             if ($user instanceof TwoFactorAuthInterface && !$user->shouldValidateWithTwoFactorAuth()) {
                 return $next($request);
             }
 
-            if (!$user->{config(TwoFactorAuthService::CONFIG_KEY . '.is_enabled')}) {
-
+            if (app(TwoFactorAuthService::class)->getUserTwoFactorAuthSecret($user)) {
                 return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');
             }
             if (!$google2FA->isAuthenticated()) {

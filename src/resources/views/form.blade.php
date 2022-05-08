@@ -19,7 +19,7 @@
 
                                     <div class="form-outline mb-4">
                                         <input type="text"
-                                               name="{{ \Illuminate\Support\Facades\Config::get('google2fa.otp_input')  }}"
+                                               name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
                                                class="form-control @error('error') is-invalid @enderror"
                                                placeholder="{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.enter_code_placeholder') }}" autofocus="autofocus">
                                         @if($errors->any())

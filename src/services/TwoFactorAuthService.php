@@ -2,10 +2,12 @@
 
 namespace MHMartinez\TwoFactorAuth\services;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
+use MHMartinez\TwoFactorAuth\app\Http\Models\TwoFactorAuth;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
@@ -33,7 +35,7 @@ class TwoFactorAuthService
         }
 
         $userSecret = $this->google2FA->generateSecretKey();
-        Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->update([config('google2fa.otp_secret_column') => $userSecret]);
+        $this->updateOrCreateUserSecret($userSecret);
 
         return $userSecret;
     }
@@ -54,12 +56,12 @@ class TwoFactorAuthService
 
     public function getUserSecretKey(): ?string
     {
-        return Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->{config('google2fa.otp_secret_column')} ?? null;
+        return $this->getUserTwoFactorAuthSecret(Auth::guard(config(self::CONFIG_KEY . '.guard'))->user());
     }
 
     public function getOneTimePasswordRequestField(): ?string
     {
-        $inputKey = config('google2fa.otp_input');
+        $inputKey = config(self::CONFIG_KEY . '.otp_input');
 
         return $this->request->has($inputKey)
             ? $this->request->get($inputKey)
@@ -68,13 +70,27 @@ class TwoFactorAuthService
 
     public function handleRemember(): void
     {
-        Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->update([config(self::CONFIG_KEY . '.is_enabled') => true]);
-
         if (Session::has(config(self::CONFIG_KEY . '.remember_key'))) {
             Cookie::queue(Cookie::make(config(self::CONFIG_KEY . '.remember_key'), true));
             Session::remove(config(self::CONFIG_KEY . '.remember_key'));
         }
 
         Session::remove(config(self::CONFIG_KEY . '.user_secret_key'));
+    }
+
+    public function getUserTwoFactorAuthSecret(Authenticatable $user): ?string
+    {
+        return TwoFactorAuth::query()
+            ->where('user_id', $user->id)
+            ->select('secret')
+            ->first()['secret'] ?? null;
+    }
+
+    public function updateOrCreateUserSecret(string $userSecret)
+    {
+        TwoFactorAuth::updateOrCreate([
+            ['user_id' => Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->id],
+            ['secret' => $userSecret],
+        ]);
     }
 }

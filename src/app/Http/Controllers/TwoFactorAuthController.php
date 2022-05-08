@@ -53,10 +53,11 @@ class TwoFactorAuthController extends Controller
             return Redirect::back()->withErrors(['error' => config(TwoFactorAuthService::CONFIG_KEY . '.error_msg')]);
         }
 
+        $this->twoFactorAuth->updateOrCreateUserSecret($userSecret);
         $this->twoFactorAuth->handleRemember();
         $this->google2FA->login();
 
-        return Redirect::route(config(TwoFactorAuthService::CONFIG_KEY . '.route_after_validated'));
+        return Redirect::route(config(TwoFactorAuthService::CONFIG_KEY . '.route_after_validation'));
 
     }
 }

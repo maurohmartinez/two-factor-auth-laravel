@@ -2,19 +2,9 @@
 
 return [
     /*
-     * Name of the table where you store users.
-     */
-    'users_table' => 'users',
-
-    /*
-     * Name of the column we will create in your users table
-     */
-    'is_enabled' => 'google2fa_is_enabled',
-
-    /*
      * Name of the route where you want to redirect users after successful validation
      */
-    'route_after_validated' => 'home',
+    'route_after_validation' => 'home',
 
     /*
      * The key to be used in sessions and cookies
@@ -25,6 +15,11 @@ return [
      * Guard you use in Auth
      */
     'guard' => 'web',
+
+    /*
+     * One time password input field name in form
+     */
+    'otp_input' => 'two_factor_auth_input',
 
     /*
      * Middleware route name where you want to check if user validated 2FA
