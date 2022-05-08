@@ -14,7 +14,7 @@ return [
     /*
      * Name of the route where you want to redirect users after successful validation
      */
-    'route_after_validated' => 'backpack',
+    'route_after_validated' => 'home',
 
     /*
      * The key to be used in sessions and cookies
@@ -24,7 +24,7 @@ return [
     /*
      * Guard you use in Auth
      */
-    'guard' => 'backpack',
+    'guard' => 'auth',
 
     /*
      * Middleware route name where you want to check if user validated 2FA
@@ -50,7 +50,7 @@ return [
     /*
      * Customize the blade @extends() for the views
      */
-    'layout' => 'layouts.plain',
+    'layout' => 'layouts.app',
 
     /*
      * The message displayed to user when they entered a wrong code
