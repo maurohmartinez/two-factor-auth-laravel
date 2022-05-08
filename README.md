@@ -30,17 +30,13 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
     ```sh
        php artisan migrate
     ```
-3. Add "google2fa_secret" and "google2fa_is_enabled" to `User` fillable Model (or any other name if you edit the config file)
-    ```php
-   protected $fillable = [..., 'google2fa_secret', 'google2fa_is_enabled'];
-    ```
 
-4. Publish config, views, and public files and customize them as you need
+3. Publish config, views, and public files and customize them as you need
     ```sh
        php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider"
     ```
 
-5. Add our middleware wherever you need it<br>
+4. [optional] Adjust middleware group name<br>
 
     This package automatically applies a middleware to route "admin", but you can adjust that by updating the config file:
     ```php
@@ -49,8 +45,7 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
    You can also manually add the middleware `MHMartinez\TwoFactorAuth\app\Http\Middleware\TwoFactorAuthMiddleware` where you need it.
 
 
-7. [Optional] What if you only want to require users of type admins to validate with 2FA?
-    In this case, your `User` model should implement interface `MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface`. That will require you to add a new method `shouldValidateWithTwoFactorAuth` which should return a boolean indicating whether the middleware should or not be used for that user.<br>
+5. [optional] If you only want to ask certain users to validate 2FA, your `User` model should implement interface `MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface`. That will require you to add a new method `shouldValidateWithTwoFactorAuth` which should return a boolean indicating whether the middleware should skip that given user.<br>
     
    Sample of your `User` Model Class:
    ```php

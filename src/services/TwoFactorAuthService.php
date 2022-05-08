@@ -80,10 +80,13 @@ class TwoFactorAuthService
 
     public function getUserTwoFactorAuthSecret(Authenticatable $user): ?string
     {
-        return TwoFactorAuth::query()
+        /** @var TwoFactorAuth $secret */
+        $secret = TwoFactorAuth::query()
                 ->where('user_id', $user->id)
                 ->select('secret')
-                ->first()['secret'] ?? null;
+                ->first();
+
+        return $secret ? decrypt($secret->secret) : null;
     }
 
     public function updateOrCreateUserSecret(string $userSecret)
