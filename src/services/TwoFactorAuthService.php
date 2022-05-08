@@ -4,6 +4,8 @@ namespace MHMartinez\TwoFactorAuth\services;
 
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -56,7 +58,10 @@ class TwoFactorAuthService
 
     public function getUserSecretKey(): ?string
     {
-        return $this->getUserTwoFactorAuthSecret(Auth::guard(config(self::CONFIG_KEY . '.guard'))->user());
+        /** @var TwoFactorAuth $secret */
+        $secret = $this->getUserTwoFactorAuthSecret(Auth::guard(config(self::CONFIG_KEY . '.guard'))->user());
+
+        return $secret ? decrypt($secret->secret) : null;
     }
 
     public function getOneTimePasswordRequestField(): ?string
@@ -78,15 +83,11 @@ class TwoFactorAuthService
         Session::remove(config(self::CONFIG_KEY . '.user_secret_key'));
     }
 
-    public function getUserTwoFactorAuthSecret(Authenticatable $user): ?string
+    public function getUserTwoFactorAuthSecret(Authenticatable $user): Builder|Model|null
     {
-        /** @var TwoFactorAuth $secret */
-        $secret = TwoFactorAuth::query()
+        return TwoFactorAuth::query()
                 ->where('user_id', $user->id)
-                ->select('secret')
                 ->first();
-
-        return $secret ? decrypt($secret->secret) : null;
     }
 
     public function updateOrCreateUserSecret(string $userSecret)
