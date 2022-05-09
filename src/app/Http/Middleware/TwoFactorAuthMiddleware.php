@@ -9,21 +9,20 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
 use MHMartinez\TwoFactorAuth\app\CustomCheckAuthenticator;
 use MHMartinez\TwoFactorAuth\app\Interfaces\TwoFactorAuthInterface;
-use MHMartinez\TwoFactorAuth\app\Models\TwoFactorAuth;
-use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\TwoFactorAuth;
 
 class TwoFactorAuthMiddleware
 {
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!config(TwoFactorAuthService::CONFIG_KEY . '.enabled')) {
+        if (!config('two_factor_auth.enabled')) {
             return $next($request);
         }
 
         $google2FA = new CustomCheckAuthenticator($request);
 
-        if (Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->check()) {
-            $user = Auth::guard(config(TwoFactorAuthService::CONFIG_KEY . '.guard'))->user();
+        if (Auth::guard(config('two_factor_auth.guard'))->check()) {
+            $user = Auth::guard(config('two_factor_auth.guard'))->user();
 
             if (!$user) {
                 return $next($request);
@@ -33,15 +32,15 @@ class TwoFactorAuthMiddleware
                 return $next($request);
             }
 
-            if (!app(TwoFactorAuthService::class)->getUserTwoFactorAuthSecret($user)) {
-                return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');
+            if (!app(TwoFactorAuth::class)->getUserTwoFactorAuthSecret($user)) {
+                return Redirect::route('two_factor_auth.setup');
             }
 
             if (!$google2FA->isAuthenticated()) {
-                if (Cookie::has(config(TwoFactorAuthService::CONFIG_KEY . '.remember_key'))) {
+                if (Cookie::has(config('two_factor_auth.remember_key'))) {
                     $google2FA->login();
                 } else {
-                    return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.validate');
+                    return Redirect::route('two_factor_auth.validate');
                 }
             }
         }

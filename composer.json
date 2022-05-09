@@ -34,7 +34,7 @@
         "MHMartinez\\TwoFactorAuth\\app\\Providers\\TwoFactorAuthServiceProvider"
       ],
       "aliases": {
-        "TwoFactorAuth": "MHMartinez\\TwoFactorAuth\\Facade"
+        "TwoFactorAuth": "MHMartinez\\TwoFactorAuth\\Facades\\TwoFactorAuth"
       }
     }
   }

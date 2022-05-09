@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\NoReturn;
-use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\TwoFactorAuth;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
@@ -18,7 +18,7 @@ use PragmaRX\Google2FAQRCode\Exceptions\MissingQrCodeServiceException;
 
 class TwoFactorAuthController extends Controller
 {
-    public function __construct(private Google2FA $google2FA, private TwoFactorAuthService $twoFactorAuth)
+    public function __construct(private Google2FA $google2FA, private TwoFactorAuth $twoFactorAuth)
     {
     }
 
@@ -48,16 +48,16 @@ class TwoFactorAuthController extends Controller
         $userSecret = $this->twoFactorAuth->getUserSecretKey();
 
         if (!$oneTimePass || !$userSecret || !$this->google2FA->verifyKey($userSecret, $oneTimePass)) {
-            Session::put(config(TwoFactorAuthService::CONFIG_KEY . '.user_secret_key'), $userSecret);
+            Session::put(config('two_factor_auth.user_secret_key'), $userSecret);
 
-            return Redirect::back()->withErrors(['error' => config(TwoFactorAuthService::CONFIG_KEY . '.error_msg')]);
+            return Redirect::back()->withErrors(['error' => __('two_factor_auth::form.error_msg')]);
         }
 
         $this->twoFactorAuth->updateOrCreateUserSecret($userSecret);
         $this->twoFactorAuth->handleRemember();
         $this->google2FA->login();
 
-        return Redirect::route(config(TwoFactorAuthService::CONFIG_KEY . '.route_after_validation'));
+        return Redirect::route(config('two_factor_auth.route_after_validation'));
 
     }
 }

@@ -1,12 +1,18 @@
-@extends(\Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.layout'))
+@extends(\Illuminate\Support\Facades\Config::get('two_factor_auth.layout'))
+
+@section('longDescription')
+    <div class="alert alert-warning">
+        <small class="text-center">{{ __('two_factor_auth::form.setup_description_1') }}</small>
+    </div>
+@endsection
 
 @section('twoFactorAuthSetup')
-    <p class="text-center">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.texts.setup_description') }} <strong>{{ $secret }}</strong></p>
+    <p class="text-center">{{ __('two_factor_auth::form.setup_description_2') }} <strong>{{ $secret }}</strong></p>
     <div class="text-center mb-3">
         {!! $QR_Image !!}
     </div>
 @endsection
 
 @section('content')
-    @include(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '::form', ['formTitle' => \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.texts.setup_title') ])
+    @include('two_factor_auth::form', ['formTitle' => __('two_factor_auth::form.setup_title') ])
 @endsection

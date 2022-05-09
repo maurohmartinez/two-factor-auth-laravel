@@ -3,12 +3,12 @@
 namespace MHMartinez\TwoFactorAuth\listeners;
 
 use Illuminate\Support\Facades\Cookie;
-use MHMartinez\TwoFactorAuth\services\TwoFactorAuthService;
+use MHMartinez\TwoFactorAuth\TwoFactorAuth;
 
 class TwoFactorAuthLogoutListener
 {
     public function handle(): void
     {
-        Cookie::queue(Cookie::forget(config(TwoFactorAuthService::CONFIG_KEY . '.remember_key')));
+        Cookie::queue(Cookie::forget(config('two_factor_auth.remember_key')));
     }
 }

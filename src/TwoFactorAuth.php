@@ -1,16 +1,16 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\services;
+namespace MHMartinez\TwoFactorAuth;
 
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-use MHMartinez\TwoFactorAuth\app\Models\TwoFactorAuth;
+use MHMartinez\TwoFactorAuth\app\Models\TwoFactorAuth as TwoFactorAuthModel;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
@@ -18,25 +18,19 @@ use PragmaRX\Google2FALaravel\Google2FA;
 use PragmaRX\Google2FAQRCode\Exceptions\MissingQrCodeServiceException;
 use PragmaRX\Google2FAQRCode\QRCode\Bacon;
 
-class TwoFactorAuthService
+class TwoFactorAuth
 {
-    public const CONFIG_KEY = 'two_factor_auth';
-
-    public function __construct(private Request $request, private Google2FA $google2FA)
-    {
-    }
-
     /**
      * @throws IncompatibleWithGoogleAuthenticatorException|SecretKeyTooShortException
      * @throws InvalidCharactersException
      */
     public function generateUserSecretKey(): string
     {
-        if (Session::has(config(self::CONFIG_KEY . '.user_secret_key'))) {
-            return Session::get(config(self::CONFIG_KEY . '.user_secret_key'));
+        if (Session::has(config('two_factor_auth.user_secret_key'))) {
+            return Session::get(config('two_factor_auth.user_secret_key'));
         }
 
-        $userSecret = $this->google2FA->generateSecretKey();
+        $userSecret = app(Google2FA::class)->generateSecretKey();
         $this->updateOrCreateUserSecret($userSecret);
 
         return $userSecret;
@@ -47,57 +41,58 @@ class TwoFactorAuthService
      */
     public function generateQR(string $userSecret): string
     {
-        $this->google2FA->setQrcodeService(new Bacon(new SvgImageBackEnd()));
+        $google2FA = app(Google2FA::class);
+        $google2FA->setQrcodeService(new Bacon(new SvgImageBackEnd()));
 
-        return $this->google2FA->getQRCodeInline(
+        return $google2FA->getQRCodeInline(
             config('app.name'),
-            Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->getAttribute('email'),
+            Auth::guard(config('two_factor_auth.guard'))->user()->getAttribute('email'),
             $userSecret,
         );
     }
 
     public function getUserSecretKey(): ?string
     {
-        /** @var TwoFactorAuth $secret */
-        $secret = $this->getUserTwoFactorAuthSecret(Auth::guard(config(self::CONFIG_KEY . '.guard'))->user());
+        /** @var TwoFactorAuthModel $secret */
+        $secret = $this->getUserTwoFactorAuthSecret(Auth::guard(config('two_factor_auth.guard'))->user());
 
         return $secret ? decrypt($secret->secret) : null;
     }
 
     public function getOneTimePasswordRequestField(): ?string
     {
-        $inputKey = config(self::CONFIG_KEY . '.otp_input');
+        $inputKey = config('two_factor_auth.otp_input');
 
-        return $this->request->has($inputKey)
-            ? $this->request->get($inputKey)
+        return Request::has($inputKey)
+            ? Request::get($inputKey)
             : null;
     }
 
     public function handleRemember(): void
     {
-        if (Session::has(config(self::CONFIG_KEY . '.remember_key'))) {
-            $days = config(TwoFactorAuthService::CONFIG_KEY . '.2fa_expires');
-            $key = config(self::CONFIG_KEY . '.remember_key');
+        if (Session::has(config('two_factor_auth.remember_key'))) {
+            $days = config('two_factor_auth.2fa_expires');
+            $key = config('two_factor_auth.remember_key');
             $minutes = $days === 0 ? null : $days * 60 * 24;
 
             Cookie::queue(Cookie::make($key, true, $minutes));
-            Session::remove(config(self::CONFIG_KEY . '.remember_key'));
+            Session::remove(config('two_factor_auth.remember_key'));
         }
 
-        Session::remove(config(self::CONFIG_KEY . '.user_secret_key'));
+        Session::remove(config('two_factor_auth.user_secret_key'));
     }
 
     public function getUserTwoFactorAuthSecret(Authenticatable $user): Builder|Model|null
     {
-        return TwoFactorAuth::query()
+        return TwoFactorAuthModel::query()
             ->where('user_id', $user->id)
             ->first();
     }
 
     public function updateOrCreateUserSecret(string $userSecret)
     {
-        TwoFactorAuth::updateOrCreate(
-            ['user_id' => Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->id],
+        TwoFactorAuthModel::updateOrCreate(
+            ['user_id' => Auth::guard(config('two_factor_auth.guard'))->user()->id],
             ['secret' => $userSecret],
         );
     }

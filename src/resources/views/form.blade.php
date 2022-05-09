@@ -3,8 +3,13 @@
         <div class="row d-md-flex justify-content-center align-items-center h-100">
             <div class="col-xl-10">
                 <div class="card rounded-3">
+
+                    @yield('longDescription')
+
                     <div class="row g-0">
                         <div class="col-12 col-md-6 order-2 order-md-1">
+
+
                             <div class="card-body p-md-5 mx-md-4">
                                 <div class="text-center">
                                     <h4 class="mt-1 mb-3 pb-1">{{ $formTitle }}</h4>
@@ -21,7 +26,7 @@
                                         <input type="text"
                                                name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
                                                class="form-control @error('error') is-invalid @enderror"
-                                               placeholder="{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.enter_code_placeholder') }}" autofocus="autofocus">
+                                               placeholder="{{ __('two_factor_auth::form.enter_code_placeholder') }}" autofocus="autofocus">
                                         @if($errors->any())
                                             <span class="invalid-feedback text-left">{{$errors->first()}}</span>
                                         @endif
@@ -30,7 +35,7 @@
                                     @yield('twoFactorAuthValidate')
 
                                     <div class="d-flex align-items-center justify-content-center pb-4">
-                                        <button type="submit" class="btn btn-primary">{{ \Illuminate\Support\Facades\Config::get(\MHMartinez\TwoFactorAuth\services\TwoFactorAuthService::CONFIG_KEY . '.validate_btn') }}</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('two_factor_auth::form.validate_btn') }}</button>
                                     </div>
 
                                 </form>
