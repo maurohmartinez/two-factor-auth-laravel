@@ -7,10 +7,16 @@ return [
     'enabled' => env('TWO_FACTOR_AUTH_ENABLED', true),
 
     /*
-     * Set in days when the secret code expires
+     * Set in days when the one-time-password expires
      * 0 means it never expires
      */
     '2fa_expires' => 0,
+
+    /*
+     * Name of checkbox input to remember users in your login form
+     * This will be used to save a cookie to remember 2FA for that user as well.
+     */
+    'remember_input_name' => 'remember',
 
     /*
      * Name of the route where you want to redirect users after successful validation

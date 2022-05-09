@@ -38,7 +38,7 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
        php artisan migrate
     ```
 
-3. Publish config, views, and public files and customize them as you need
+3. Publish config, views, and public files and customize them as (and if) you need
     ```sh
        php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider"
     ```
@@ -72,7 +72,7 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
 
 6. [optional] Disable this package in local environments by adding `TWO_FACTOR_AUTH_ENABLED=false` in your `.env`
 
-7. [optional] Set in days when the secret code expires in the config file — 0 means it never expires `'2fa_expires' => 0,`
+7. [optional] Set in days when the one-time-password expires in the config file. FYI, 0 means it never expires `'2fa_expires' => 0,`
 
 <!-- CONTACT -->
 ## Contact

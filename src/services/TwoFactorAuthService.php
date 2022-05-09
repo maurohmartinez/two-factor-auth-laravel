@@ -76,7 +76,11 @@ class TwoFactorAuthService
     public function handleRemember(): void
     {
         if (Session::has(config(self::CONFIG_KEY . '.remember_key'))) {
-            Cookie::queue(Cookie::make(config(self::CONFIG_KEY . '.remember_key'), true));
+            $days = config(TwoFactorAuthService::CONFIG_KEY . '.2fa_expires');
+            $key = config(self::CONFIG_KEY . '.remember_key');
+            $minutes = $days === 0 ? null : $days * 60 * 24;
+
+            Cookie::queue(Cookie::make($key, true, $minutes));
             Session::remove(config(self::CONFIG_KEY . '.remember_key'));
         }
 
@@ -86,8 +90,8 @@ class TwoFactorAuthService
     public function getUserTwoFactorAuthSecret(Authenticatable $user): Builder|Model|null
     {
         return TwoFactorAuth::query()
-                ->where('user_id', $user->id)
-                ->first();
+            ->where('user_id', $user->id)
+            ->first();
     }
 
     public function updateOrCreateUserSecret(string $userSecret)
@@ -96,12 +100,5 @@ class TwoFactorAuthService
             ['user_id' => Auth::guard(config(self::CONFIG_KEY . '.guard'))->user()->id],
             ['secret' => $userSecret],
         );
-    }
-
-    public function secretHasExpired(TwoFactorAuth $secret): bool
-    {
-        $expiresInDays = config(TwoFactorAuthService::CONFIG_KEY . '.2fa_expires');
-
-        return $expiresInDays !== 0 && $secret->updated_at->addDays($expiresInDays)->isPast();
     }
 }

@@ -10,7 +10,7 @@ class TwoFactorAuthLoginListener
 {
     public function handle(): void
     {
-        $remember = Request::get('remember', false);
+        $remember = Request::get(config(TwoFactorAuthService::CONFIG_KEY . '.remember_input_name'), false);
         if ($remember) {
             Session::put(config(TwoFactorAuthService::CONFIG_KEY . '.remember_key'), true);
         }

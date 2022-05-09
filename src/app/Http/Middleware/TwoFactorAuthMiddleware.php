@@ -33,11 +33,7 @@ class TwoFactorAuthMiddleware
                 return $next($request);
             }
 
-            $twoFactorAuthService = app(TwoFactorAuthService::class);
-
-            /** @var TwoFactorAuth $secret */
-            $secret = $twoFactorAuthService->getUserTwoFactorAuthSecret($user);
-            if (!$secret || $twoFactorAuthService->secretHasExpired($secret)) {
+            if (!app(TwoFactorAuthService::class)->getUserTwoFactorAuthSecret($user)) {
                 return Redirect::route(TwoFactorAuthService::CONFIG_KEY . '.setup');
             }
 
