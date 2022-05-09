@@ -1,5 +1,5 @@
 {
-  "name": "mhmartinez/two-factor-authentication-laravel",
+  "name": "maurohmartinez/two-factor-auth-laravel",
   "description": "A package to handle 2FA authentication",
   "type": "library",
   "require": {

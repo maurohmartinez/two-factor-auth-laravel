@@ -31,7 +31,7 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
 
 1. Use composer to require this project
     ```sh
-       composer require mhmartinez/two-factor-authentication-laravel
+       composer require maurohmartinez/two-factor-auth-laravel
     ```
 2. Run migrations
     ```sh
