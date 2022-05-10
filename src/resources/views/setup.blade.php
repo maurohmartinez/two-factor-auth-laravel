@@ -17,9 +17,9 @@
                                       action="{{ route('two_factor_auth.authenticate') }}">
                                     @csrf
                                     <div class="alert alert-warning text-center">
-                                        <small class="text-center">{{ __('two_factor_auth::form.setup_description_1') }}</small>
+                                        <small class="text-center">{{ __('two_factor_auth::form.warning') }}</small>
                                     </div>
-                                    <p class="text-center">{{ __('two_factor_auth::form.setup_description_2') }} <strong>{{ $secret }}</strong></p>
+                                    <p class="text-center">{{ __('two_factor_auth::form.description') }} <strong>{{ $secret }}</strong></p>
                                     <div class="text-center mb-3">
                                         {!! $QR_Image !!}
                                     </div>

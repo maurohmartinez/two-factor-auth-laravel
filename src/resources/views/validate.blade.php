@@ -17,9 +17,9 @@
                                       action="{{ route('two_factor_auth.authenticate') }}">
                                     @csrf
                                     <div class="alert alert-warning text-center">
-                                        <small class="text-center">{{ __('two_factor_auth::form.setup_description_1') }}</small>
+                                        <small class="text-center">{{ __('two_factor_auth::form.warning') }}</small>
                                     </div>
-                                    <p class="text-center">{{ __('two_factor_auth::form.validate_description') }} <a class="text-primary" href="{{ route('two_factor_auth.setup') }}">{{ __('two_factor_auth::form.re_setup_btn') }}</a></p>
+                                    <p class="text-center">{{ __('two_factor_auth::form.revalidate_description') }} <a class="text-primary" href="{{ route('two_factor_auth.setup') }}">{{ __('two_factor_auth::form.re_setup_btn') }}</a></p>
                                     <div class="mb-4 col-10 col-md-8 col-lg-7 col-xl-6 mx-auto">
                                         <input type="text"
                                                name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
