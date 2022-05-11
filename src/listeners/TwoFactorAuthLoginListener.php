@@ -11,7 +11,7 @@ class TwoFactorAuthLoginListener
     {
         $remember = Request::get(config('two_factor_auth.remember_input_name'), false);
 
-        if ($remember) {
+        if ($remember || config('two_factor_auth.always_remember_one_time_pass')) {
             Session::put(config('two_factor_auth.remember_key'), true);
         }
     }

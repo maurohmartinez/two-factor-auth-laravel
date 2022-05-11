@@ -10,13 +10,19 @@ return [
      * Set in days when the one-time-password expires
      * 0 means it never expires
      */
-    '2fa_expires' => 0,
+    '2fa_expires' => 60,
 
     /*
      * Name of checkbox input to remember users in your login form
      * This will be used to save a cookie to remember 2FA for that user as well.
+     * Check carefully "always_remember_one_time_pass" which will override this value.
      */
     'remember_input_name' => 'remember',
+
+    /*
+     * If true, we will ignore the "remember me" input and always remember one time password
+     */
+    'always_remember_one_time_pass' => false,
 
     /*
      * Name of the route where you want to redirect users after successful validation
