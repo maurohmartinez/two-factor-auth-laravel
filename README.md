@@ -40,7 +40,7 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
 
 3. Publish config, views, and public files and customize them as (and if) you need
     ```sh
-       php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\Providers\TwoFactorAuthServiceProvider"
+       php artisan vendor:publish --provider="MHMartinez\TwoFactorAuth\app\Providers\TwoFactorAuthServiceProvider"
     ```
 
 4. [optional] Adjust middleware group name<br>
