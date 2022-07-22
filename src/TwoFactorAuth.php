@@ -82,11 +82,13 @@ class TwoFactorAuth
         Session::remove(config('two_factor_auth.user_secret_key'));
     }
 
-    public function getUserTwoFactorAuthSecret(Authenticatable $user): Builder|Model|null
+    public function getUserTwoFactorAuthSecret(?Authenticatable $user): Builder|Model|null
     {
-        return TwoFactorAuthModel::query()
-            ->where('user_id', $user->id)
-            ->first();
+        return !$user
+            ? null
+            : TwoFactorAuthModel::query()
+                ->where('user_id', $user->id)
+                ->first();
     }
 
     public function updateOrCreateUserSecret(string $userSecret)
