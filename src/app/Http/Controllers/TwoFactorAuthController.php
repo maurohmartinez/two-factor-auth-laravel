@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\NoReturn;
@@ -28,6 +29,10 @@ class TwoFactorAuthController extends Controller
      */
     #[NoReturn] public function setupTwoFactorAuth(): Factory|View|Application
     {
+        if (!Auth::guard(config('two_factor_auth.guard'))->user()) {
+            return url('/');
+        }
+
         $userSecret = $this->twoFactorAuth->generateUserSecretKey();
         $QR_Image = $this->twoFactorAuth->generateQR($userSecret);
 
@@ -36,6 +41,10 @@ class TwoFactorAuthController extends Controller
 
     #[NoReturn] public function validateTwoFactorAuth(): Factory|View|Application
     {
+        if (!Auth::guard(config('two_factor_auth.guard'))->user()) {
+            return url('/');
+        }
+
         return view('two_factor_auth::validate', ['secret' => $this->twoFactorAuth->getUserSecretKey()]);
     }
 
@@ -44,6 +53,10 @@ class TwoFactorAuthController extends Controller
      */
     #[NoReturn] public function authenticateTwoFactorAuth(): RedirectResponse
     {
+        if (!Auth::guard(config('two_factor_auth.guard'))->user()) {
+            return Redirect::to(url('/'));
+        }
+
         $oneTimePass = $this->twoFactorAuth->getOneTimePasswordRequestField();
         $userSecret = $this->twoFactorAuth->getUserSecretKey();
 
