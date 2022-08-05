@@ -27,10 +27,10 @@ class TwoFactorAuthController extends Controller
      * @throws IncompatibleWithGoogleAuthenticatorException|MissingQrCodeServiceException
      * @throws InvalidCharactersException|SecretKeyTooShortException
      */
-    #[NoReturn] public function setupTwoFactorAuth(): Factory|View|Application
+    #[NoReturn] public function setupTwoFactorAuth(): Factory|View|Application|RedirectResponse
     {
         if (!Auth::guard(config('two_factor_auth.guard'))->user()) {
-            return url('/');
+            return Redirect::to(url('/'));
         }
 
         $userSecret = $this->twoFactorAuth->generateUserSecretKey();
@@ -39,10 +39,10 @@ class TwoFactorAuthController extends Controller
         return view('two_factor_auth::setup', ['QR_Image' => $QR_Image, 'secret' => $userSecret]);
     }
 
-    #[NoReturn] public function validateTwoFactorAuth(): Factory|View|Application
+    #[NoReturn] public function validateTwoFactorAuth(): Factory|View|Application|RedirectResponse
     {
         if (!Auth::guard(config('two_factor_auth.guard'))->user()) {
-            return url('/');
+            return Redirect::to(url('/'));
         }
 
         return view('two_factor_auth::validate', ['secret' => $this->twoFactorAuth->getUserSecretKey()]);
