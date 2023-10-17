@@ -21,7 +21,7 @@
                                 <p class="text-center">{{ __('two_factor_auth::form.description') }}
                                     <strong>{{ $secret }}</strong></p>
                                 <div class="text-center mb-3">
-                                    <img src="{{ $qr }}" alt="QR" style="width: 100%; height: auto; max-width: 500px;">
+                                    {!! $qr !!}
                                 </div>
                                 <div class="mb-4 col-10 col-md-8 col-lg-7 col-xl-6 mx-auto">
                                     <input
