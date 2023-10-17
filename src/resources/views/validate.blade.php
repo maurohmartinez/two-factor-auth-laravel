@@ -15,15 +15,27 @@
                                   method="POST"
                                   action="{{ route('two_factor_auth.authenticate') }}">
                                 @csrf
-                                <div class="alert alert-warning text-center">
-                                    <small class="text-center">{{ __('two_factor_auth::form.warning') }}</small>
-                                </div>
-                                <p class="text-center">{{ __('two_factor_auth::form.revalidate_description') }} <a class="text-primary" href="{{ route('two_factor_auth.setup') }}">{{ __('two_factor_auth::form.re_setup_btn') }}</a></p>
+                                @if(__('two_factor_auth::form.warning'))
+                                    <div class="alert alert-warning text-center">
+                                        <small class="text-center">{{ __('two_factor_auth::form.warning') }}</small>
+                                    </div>
+                                @endif
+                                @if(session()->has('email-sent'))
+                                    <div class="alert alert-success text-center">
+                                        <p class="mb-0">{{ session()->get('email-sent') }}</p>
+                                    </div>
+                                @endif
+                                <p class="text-center">{{ __('two_factor_auth::form.revalidate_description') }}
+                                    <a class="text-primary" href="{{ route('two_factor_auth.send_setup_email') }}">{{ __('two_factor_auth::form.re_setup_btn') }}</a>.
+                                </p>
                                 <div class="mb-4 col-10 col-md-8 col-lg-7 col-xl-6 mx-auto">
-                                    <input type="text"
-                                           name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
-                                           class="form-control @error('error') is-invalid @enderror"
-                                           placeholder="{{ __('two_factor_auth::form.enter_code_placeholder') }}" autofocus="autofocus">
+                                    <input
+                                        type="text"
+                                        name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
+                                        class="form-control @error('error') is-invalid @enderror"
+                                        placeholder="{{ __('two_factor_auth::form.enter_code_placeholder') }}"
+                                        autofocus="autofocus"
+                                    >
                                     @if($errors->any())
                                         <span class="invalid-feedback text-left">{{$errors->first()}}</span>
                                     @endif

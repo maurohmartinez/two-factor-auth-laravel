@@ -2,15 +2,18 @@
 
 namespace MHMartinez\TwoFactorAuth;
 
-use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use MHMartinez\TwoFactorAuth\app\Models\TwoFactorAuth as TwoFactorAuthModel;
+use MHMartinez\TwoFactorAuth\app\Notifications\ResetTwoFactorAuth;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
@@ -42,12 +45,13 @@ class TwoFactorAuth
     public function generateQR(string $userSecret): string
     {
         $google2FA = app(Google2FA::class);
-        $google2FA->setQrcodeService(new Bacon(new SvgImageBackEnd()));
+        $google2FA->setQrcodeService(new Bacon(new ImagickImageBackEnd()));
 
         return $google2FA->getQRCodeInline(
             config('app.name'),
             Auth::guard(config('two_factor_auth.guard'))->user()->getAttribute('email'),
             $userSecret,
+            500,
         );
     }
 
@@ -56,7 +60,7 @@ class TwoFactorAuth
         /** @var TwoFactorAuthModel $secret */
         $secret = $this->getUserTwoFactorAuthSecret(Auth::guard(config('two_factor_auth.guard'))->user());
 
-        return $secret ? decrypt($secret->secret) : null;
+        return $secret?->secret;
     }
 
     public function getOneTimePasswordRequestField(): ?string
@@ -82,6 +86,21 @@ class TwoFactorAuth
         Session::remove(config('two_factor_auth.user_secret_key'));
     }
 
+    public function sendSetupEmail(Authenticatable $user): bool
+    {
+        try {
+            $token = $this->getUserTwoFactorAuthSecret($user)?->getRawOriginal('secret') ?? $this->generateUserSecretKey();
+            $notification = new ResetTwoFactorAuth($token);
+            $user->notify($notification);
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function getUserTwoFactorAuthSecret(?Authenticatable $user): Builder|Model|null
     {
         return !$user
@@ -91,7 +110,7 @@ class TwoFactorAuth
                 ->first();
     }
 
-    public function updateOrCreateUserSecret(string $userSecret)
+    public function updateOrCreateUserSecret(string $userSecret): void
     {
         TwoFactorAuthModel::updateOrCreate(
             ['user_id' => Auth::guard(config('two_factor_auth.guard'))->user()->id],

@@ -18,15 +18,19 @@
                                 <div class="alert alert-warning text-center">
                                     <small class="text-center">{{ __('two_factor_auth::form.warning') }}</small>
                                 </div>
-                                <p class="text-center">{{ __('two_factor_auth::form.description') }} <strong>{{ $secret }}</strong></p>
+                                <p class="text-center">{{ __('two_factor_auth::form.description') }}
+                                    <strong>{{ $secret }}</strong></p>
                                 <div class="text-center mb-3">
-                                    {!! $QR_Image !!}
+                                    <img src="{{ $qr }}" alt="QR" style="width: 100%; height: auto; max-width: 500px;">
                                 </div>
                                 <div class="mb-4 col-10 col-md-8 col-lg-7 col-xl-6 mx-auto">
-                                    <input type="text"
-                                           name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
-                                           class="form-control @error('error') is-invalid @enderror"
-                                           placeholder="{{ __('two_factor_auth::form.enter_code_placeholder') }}" autofocus="autofocus">
+                                    <input
+                                        type="text"
+                                        name="{{ \Illuminate\Support\Facades\Config::get('two_factor_auth.otp_input')  }}"
+                                        class="form-control @error('error') is-invalid @enderror"
+                                        placeholder="{{ __('two_factor_auth::form.enter_code_placeholder') }}"
+                                        autofocus="autofocus"
+                                    >
                                     @if($errors->any())
                                         <span class="invalid-feedback text-left">{{$errors->first()}}</span>
                                     @endif

@@ -23,17 +23,12 @@ class TwoFactorAuthMiddleware
 
         if (Auth::guard(config('two_factor_auth.guard'))->check()) {
             $user = Auth::guard(config('two_factor_auth.guard'))->user();
-
-            if (!$user) {
-                return $next($request);
-            }
-
-            if ($user instanceof TwoFactorAuthInterface && !$user->shouldValidateWithTwoFactorAuth()) {
+            if (!$user || $user instanceof TwoFactorAuthInterface && !$user->shouldValidateWithTwoFactorAuth()) {
                 return $next($request);
             }
 
             if (!app(TwoFactorAuth::class)->getUserTwoFactorAuthSecret($user)) {
-                return Redirect::route('two_factor_auth.setup');
+                return Redirect::route('two_factor_auth.send_setup_email');
             }
 
             if (!$google2FA->isAuthenticated()) {

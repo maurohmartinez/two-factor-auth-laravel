@@ -58,4 +58,9 @@ return [
      * Customize the blade @extends() for the views
      */
     'layout' => 'layouts.app',
+
+    /*
+     * Customize the user model
+     */
+    'user_model' => \App\Models\User::class,
 ];
