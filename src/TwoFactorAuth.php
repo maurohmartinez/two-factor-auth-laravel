@@ -2,7 +2,7 @@
 
 namespace MHMartinez\TwoFactorAuth;
 
-use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -45,7 +45,7 @@ class TwoFactorAuth
     public function generateQR(string $userSecret): string
     {
         $google2FA = app(Google2FA::class);
-        $google2FA->setQrcodeService(new Bacon(new ImagickImageBackEnd()));
+        $google2FA->setQrcodeService(new Bacon(new SvgImageBackEnd()));
 
         return $google2FA->getQRCodeInline(
             config('app.name'),
