@@ -51,7 +51,7 @@ class TwoFactorAuth
             config('app.name'),
             Auth::guard(config('two_factor_auth.guard'))->user()->getAttribute('email'),
             $userSecret,
-            500,
+            200,
         );
     }
 
