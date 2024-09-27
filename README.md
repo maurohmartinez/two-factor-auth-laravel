@@ -1,4 +1,8 @@
 <h1>2FA Auth for Laravel</h1>
+
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Total Downloads][ico-downloads]][link-packagist]
+
 <p>A simple 2FA that uses Google Authenticator.</p>
 
 [link-author]: https://inspiredpulse.com
@@ -78,3 +82,8 @@ Also, if you have a "remember" input in your login form, we pick up on that and 
 ## Contact
 
 Project Link: [https://github.com/maurohmartinez/two-factor-auth-laravel](https://github.com/maurohmartinez/two-factor-auth-laravel)
+
+[ico-version]: https://img.shields.io/packagist/v/maurohmartinez/two-factor-auth-laravel.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/maurohmartinez/two-factor-auth-laravel.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/maurohmartinez/two-factor-auth-laravel
