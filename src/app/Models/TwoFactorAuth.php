@@ -25,13 +25,6 @@ class TwoFactorAuth extends Model
 
     protected $fillable = ['user_id', 'secret'];
 
-    protected function secret(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => decrypt($value),
-            set: fn (string $value) => encrypt($value),
-        );
-    }
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('two_factor_auth.user_model'));
