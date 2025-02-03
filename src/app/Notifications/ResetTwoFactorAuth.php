@@ -3,12 +3,15 @@
 namespace MHMartinez\TwoFactorAuth\app\Notifications;
 
 use Closure;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class ResetTwoFactorAuth extends Notification
+class ResetTwoFactorAuth extends Notification implements ShouldQueue
 {
+    use \Illuminate\Bus\Queueable;
+
     public static ?Closure $toMailCallback;
 
     public function __construct(private readonly string $token)

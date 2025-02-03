@@ -92,6 +92,7 @@ class TwoFactorAuth
             $token = $this->getUserTwoFactorAuthSecret($user)?->getRawOriginal('secret') ?? $this->generateUserSecretKey();
             $notification = new ResetTwoFactorAuth($token);
             $user->notify($notification);
+
         } catch (Exception $e) {
             Log::error($e);
 
