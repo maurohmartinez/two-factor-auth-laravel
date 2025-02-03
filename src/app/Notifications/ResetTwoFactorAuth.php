@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\HtmlString;
 
 class ResetTwoFactorAuth extends Notification implements ShouldQueue
 {

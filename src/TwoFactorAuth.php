@@ -89,7 +89,7 @@ class TwoFactorAuth
     public function sendSetupEmail(Authenticatable $user): bool
     {
         try {
-            $token = $this->getUserTwoFactorAuthSecret($user)?->getRawOriginal('secret') ?? $this->generateUserSecretKey();
+            $token = $this->getUserTwoFactorAuthSecret($user)?->secret ?? $this->generateUserSecretKey();
             $notification = new ResetTwoFactorAuth($token);
             $user->notify($notification);
 
