@@ -9,4 +9,5 @@ return [
     're_setup_btn' => 'Reconfigurar',
     'validate_btn' => 'Validar',
     'enter_code_placeholder' => 'Ingrese el código...',
+    'send_email' => 'Pulse el siguiente botón y le enviaremos un correo electrónico con los pasos a seguir.',
 ];

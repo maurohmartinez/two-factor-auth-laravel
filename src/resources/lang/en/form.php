@@ -9,4 +9,5 @@ return [
     're_setup_btn' => 'Reset',
     'validate_btn' => 'Validate',
     'enter_code_placeholder' => 'Enter code...',
+    'send_email' => 'Press the following button and we will send you an email with your next steps.',
 ];

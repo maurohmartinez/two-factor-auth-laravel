@@ -11,18 +11,25 @@
                                 <img src="{{ asset('vendor/two_factor_auth/shield.png') }}" alt="Shield" style="max-width: 100px; height: auto;">
                                 <h4 class="mt-1 pb-1">{{ __('two_factor_auth::form.setup_title') }}</h4>
                             </div>
-                            @if($emailSent)
+                            @if(session('sent'))
                                 <div class="alert alert-success text-center">
                                     <p class="mb-0">{{ __('two_factor_auth::messages.setup_email_sent') }}</p>
                                 </div>
                             @else
-                                <div class="alert alert-danger text-center">
-                                    <p class="mb-0">{{ __('two_factor_auth::messages.error_email_not_sent') }}</p>
-                                </div>
+                                <form class="text-center" method="post" action="{{ route('two_factor_auth.send_setup_email') }}">
+                                    <p>{{ __('two_factor_auth::form.send_email') }}</p>
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary"><i class="la la-envelope me-1"></i>Send email</button>
+                                </form>
                             @endif
+                            @error('email')
+                            <div class="alert alert-danger text-center">
+                                <p class="mb-0">{{ __('two_factor_auth::messages.error_email_not_sent') }}</p>
+                            </div>
+                            @enderror
                             @if(__('two_factor_auth::form.warning'))
                                 <hr>
-                                <div class="alert alert-warning text-center">
+                                <div class="text-center">
                                     <small class="text-center">{{ __('two_factor_auth::form.warning') }}</small>
                                 </div>
                             @endif

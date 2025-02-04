@@ -2,9 +2,11 @@
 
 namespace MHMartinez\TwoFactorAuth\app\Http\Controllers;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use \MHMartinez\TwoFactorAuth\app\Models\TwoFactorAuth as ModelTwoFactorAuth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -20,19 +22,39 @@ class TwoFactorAuthController extends Controller
     {
     }
 
-    public function sendSetupEmail(): View
+    public function showSetupEmailLink(): View
     {
         $user = Auth::guard(config('two_factor_auth.guard'))->user();
-        $emailSent = $this->twoFactorAuth->sendSetupEmail($user);
+        if (!$user) {
+            abort(404);
+        }
 
-        return view('two_factor_auth::send_setup_email', ['emailSent' => $emailSent]);
+        return view('two_factor_auth::send_setup_email');
+    }
+
+    public function sendSetupEmail(): \Illuminate\Http\RedirectResponse
+    {
+        $user = Auth::guard(config('two_factor_auth.guard'))->user();
+        if (!$user) {
+            abort(404);
+        }
+
+        try {
+            $emailSent = $this->twoFactorAuth->sendSetupEmail($user);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            return Redirect::back()->withErrors(['email' => 'Email was not sent.']);
+        }
+
+        return Redirect::route('two_factor_auth.show_setup_email')->with(['sent' => true]);
     }
 
     public function setupWithQr(string $token): View|RedirectResponse
     {
         // Users can only set a 2FA from a link sent by email
         $tokenSecret = ModelTwoFactorAuth::query()
-            ->where('secret', $token)
+            ->where('secret', decrypt($token))
             ->first();
 
         // If no token or user found, the token probably expired, abort!
