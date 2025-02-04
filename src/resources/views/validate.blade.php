@@ -26,7 +26,7 @@
                                     </div>
                                 @endif
                                 <p class="text-center">{{ __('two_factor_auth::form.revalidate_description') }}
-                                    <a class="text-primary" href="{{ route('two_factor_auth.send_setup_email') }}">{{ __('two_factor_auth::form.re_setup_btn') }}</a>.
+                                    <a class="text-primary" href="{{ route('two_factor_auth.show_setup_email') }}">{{ __('two_factor_auth::form.re_setup_btn') }}</a>.
                                 </p>
                                 <div class="mb-4 col-10 col-md-8 col-lg-7 col-xl-6 mx-auto">
                                     <input

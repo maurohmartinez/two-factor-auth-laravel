@@ -28,7 +28,7 @@ class TwoFactorAuthMiddleware
             }
 
             if (!app(TwoFactorAuth::class)->getUserTwoFactorAuthSecret($user)) {
-                return Redirect::route('two_factor_auth.send_setup_email');
+                return Redirect::route('two_factor_auth.show_setup_email');
             }
 
             if (!$google2FA->isAuthenticated()) {
