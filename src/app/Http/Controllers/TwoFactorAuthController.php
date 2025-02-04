@@ -51,15 +51,13 @@ class TwoFactorAuthController extends Controller
         return Redirect::route('two_factor_auth.show_setup_email')->with(['sent' => true]);
     }
 
-    public function setupWithQr(Request $request): View|RedirectResponse
+    public function setupWithQr(Request $request, string $token): View|RedirectResponse
     {
-        if (!$request->hasValidSignatureWhileIgnoring(['token'])) {
-            abort(401);
-        }
+        abort_unless($request->hasValidSignatureWhileIgnoring(['token']), 403, 'Invalid signature.');
 
         // Users can only set a 2FA from a link sent by email
         $tokenSecret = ModelTwoFactorAuth::query()
-            ->where('secret', decrypt($request->get('token')))
+            ->where('secret', decrypt($token))
             ->first();
 
         // If no token or user found, the token probably expired, abort!
