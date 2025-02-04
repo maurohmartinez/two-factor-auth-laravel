@@ -15,6 +15,7 @@ use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FALaravel\Google2FA;
+use Illuminate\Http\Request;
 
 class TwoFactorAuthController extends Controller
 {
@@ -32,7 +33,7 @@ class TwoFactorAuthController extends Controller
         return view('two_factor_auth::send_setup_email');
     }
 
-    public function sendSetupEmail(): \Illuminate\Http\RedirectResponse
+    public function sendSetupEmail(): RedirectResponse
     {
         $user = Auth::guard(config('two_factor_auth.guard'))->user();
         if (!$user) {
@@ -40,7 +41,7 @@ class TwoFactorAuthController extends Controller
         }
 
         try {
-            $emailSent = $this->twoFactorAuth->sendSetupEmail($user);
+            $this->twoFactorAuth->sendSetupEmail($user);
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
@@ -50,11 +51,15 @@ class TwoFactorAuthController extends Controller
         return Redirect::route('two_factor_auth.show_setup_email')->with(['sent' => true]);
     }
 
-    public function setupWithQr(string $token): View|RedirectResponse
+    public function setupWithQr(Request $request): View|RedirectResponse
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         // Users can only set a 2FA from a link sent by email
         $tokenSecret = ModelTwoFactorAuth::query()
-            ->where('secret', decrypt($token))
+            ->where('secret', decrypt($request->get('token')))
             ->first();
 
         // If no token or user found, the token probably expired, abort!
