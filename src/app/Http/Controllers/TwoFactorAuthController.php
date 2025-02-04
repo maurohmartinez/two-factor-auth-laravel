@@ -53,7 +53,7 @@ class TwoFactorAuthController extends Controller
 
     public function setupWithQr(Request $request): View|RedirectResponse
     {
-        if (!$request->hasValidSignature()) {
+        if (!$request->hasValidSignatureWhileIgnoring(['token'])) {
             abort(401);
         }
 
