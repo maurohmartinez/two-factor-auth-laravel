@@ -5,8 +5,8 @@ namespace MHMartinez\TwoFactorAuth\app\Providers;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MHMartinez\TwoFactorAuth\listeners\TwoFactorAuthLoginListener;
-use MHMartinez\TwoFactorAuth\listeners\TwoFactorAuthLogoutListener;
+use MHMartinez\TwoFactorAuth\app\Listeners\TwoFactorAuthLoginListener;
+use MHMartinez\TwoFactorAuth\app\Listeners\TwoFactorAuthLogoutListener;
 
 class EventServiceProvider extends ServiceProvider
 {

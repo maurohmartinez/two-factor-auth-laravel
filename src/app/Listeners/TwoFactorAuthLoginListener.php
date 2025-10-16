@@ -1,6 +1,6 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\listeners;
+namespace MHMartinez\TwoFactorAuth\app\Listeners;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;

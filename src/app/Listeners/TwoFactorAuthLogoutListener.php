@@ -1,9 +1,8 @@
 <?php
 
-namespace MHMartinez\TwoFactorAuth\listeners;
+namespace MHMartinez\TwoFactorAuth\app\Listeners;
 
 use Illuminate\Support\Facades\Cookie;
-use MHMartinez\TwoFactorAuth\TwoFactorAuth;
 
 class TwoFactorAuthLogoutListener
 {
